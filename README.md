@@ -9,13 +9,13 @@ https://www.groupboard.com/ytdefer.html
 
 ## Usage
 
-<script src="ytdefer.min.js"></script>
+    <script src="ytdefer.min.js"></script>
 
-<div style="width:380px;height:214px" class="ytdefer" data-src="<youtube video id>"></div>
+    <div style="width:380px;height:214px" class="ytdefer" data-src="<youtube video id>"></div>
 
-<script>
-window.addEventListener('load', ytdefer_setup);
-</script>
+    <script>
+    window.addEventListener('load', ytdefer_setup);
+    </script>
 
 
 
