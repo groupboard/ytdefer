@@ -34,7 +34,13 @@ function ytdefer_setup()
         e.appendChild(dv);
 
         var im = d.createElement('img');
-        im.src = 'https://img.youtube.com/vi/'+ds+'/0.jpg';
+        var res = '0';
+        if (w > 480)
+        {
+            res = 'maxresdefault';
+        }
+
+        im.src = 'https://img.youtube.com/vi/'+ds+'/'+res+'.jpg';
         im.id = 'ytdefer_img'+i;
         im.style.width = '100%';
         im.style.height = '100%';
