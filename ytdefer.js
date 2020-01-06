@@ -32,6 +32,17 @@ function ytdefer_setup()
         e.appendChild(dv);
 
         var im = d.createElement('img');
+        if (e.hasAttribute('data-alt'))
+        {
+            var alt = e.getAttribute('data-alt');
+            im.alt = alt;
+        }
+        if (e.hasAttribute('data-title'))
+        {
+            var title = e.getAttribute('data-title');
+            im.title = title;
+        }
+
         var res = '0';
         if (w > 480)
         {
