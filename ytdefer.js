@@ -62,6 +62,7 @@ function ytdefer_setup()
         // https://stackoverflow.com/a/25357859/1192732
         bt.style.backgroundImage = "url(data:image/svg+xml;base64,"+window.btoa(yt_dark_icon)+")";
         bt.id = 'ytdefer_icon'+i;
+        bt.setAttribute('aria-label', 'Play');
         bt.style.position = 'absolute';
         bt.style.border = '0';
         bt.style.backgroundColor = 'transparent';
