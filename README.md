@@ -17,5 +17,10 @@ https://www.groupboard.com/ytdefer.html
     window.addEventListener('load', ytdefer_setup);
     </script>
 
+## maxresdefault
 
+Note that by default YouTube does not always create a maxresdefault version
+of the thumbnail. See this answer for how to force YouTube to generate it:
+
+https://stackoverflow.com/a/48178125/1192732
 
