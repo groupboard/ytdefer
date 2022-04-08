@@ -14,7 +14,7 @@ https://www.groupboard.com/ytdefer.html
     <div style="width:380px;height:214px" class="ytdefer" data-alt="Enter optional img alt text here" data-title="Enter optional img title here" data-src="<youtube video id>"></div>
 
     <script>
-    window.addEventListener('load', ytdefer_setup);
+    ytdefer_setup();
     </script>
 
 ## maxresdefault
