@@ -6,9 +6,50 @@ var yt_icon = '<svg height="100%" version="1.1" xmlns="http://www.w3.org/2000/sv
 
 var yt_dark_icon = '<svg height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 68 48" width="100%"><path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#212121" fill-opacity="0.8"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path></svg>';
 
+// https://developers.google.com/speed/webp/faq#how_can_i_detect_browser_support_for_webp
+// check_webp_feature:
+//   'feature' can be one of 'lossy', 'lossless', 'alpha' or 'animation'.
+//   'callback(feature, result)' will be passed back the detection result (in an asynchronous way!)
+function check_webp_feature(feature, callback) {
+    var kTestImages = {
+        lossy: "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA",
+        lossless: "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==",
+        alpha: "UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA==",
+        animation: "UklGRlIAAABXRUJQVlA4WAoAAAASAAAAAAAAAAAAQU5JTQYAAAD/////AABBTk1GJgAAAAAAAAAAAAAAAAAAAGQAAABWUDhMDQAAAC8AAAAQBxAREYiI/gcA"
+    };
+    var img = new Image();
+    img.onload = function () {
+        var result = (img.width > 0) && (img.height > 0);
+        callback(feature, result);
+    };
+    img.onerror = function () {
+        callback(feature, false);
+    };
+    img.src = "data:image/webp;base64," + kTestImages[feature];
+}
+
+var started_checking_webp = false;
+var finished_checking_webp = false;
+var has_webp = false;
+
 function ytdefer_setup()
 {
     var d = document;
+    if (! finished_checking_webp)
+    {
+        if (!started_checking_webp)
+        {
+            started_checking_webp = true;
+            check_webp_feature('lossy', function(feature, result)
+            {
+                finished_checking_webp = true;
+                has_webp = result;
+            });
+        }
+        setTimeout(ytdefer_setup, 10);
+        return;
+    }
+
     var els = d.getElementsByClassName('ytdefer');
     for(var i = 0; i < els.length; i++)
     {
@@ -49,7 +90,6 @@ function ytdefer_setup()
             res = 'maxresdefault';
         }
 
-        im.src = 'https://img.youtube.com/vi/'+ds+'/'+res+'.jpg';
         im.id = 'ytdefer_img'+i;
         im.style.width = '100%';
         im.style.height = '100%';
@@ -57,6 +97,15 @@ function ytdefer_setup()
         im.style.position = 'absolute';
         im.onclick = gen_ytdefer_clk(i);
         dv.appendChild(im);
+
+        if (has_webp)
+        {
+            im.src = 'https://img.youtube.com/vi_webp/'+ds+'/'+res+'.webp';
+        }
+        else
+        {
+            im.src = 'https://img.youtube.com/vi/'+ds+'/'+res+'.jpg';
+        }
         
         var bt = d.createElement('button');
         // https://stackoverflow.com/a/25357859/1192732
