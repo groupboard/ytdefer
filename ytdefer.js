@@ -55,6 +55,7 @@ function ytdefer_setup()
     {
         var e = els[i];
         var ds = e.getAttribute('data-src');
+        if(/embed/.test(ds)) ds = ds.match(/embed\/.*?(?=\/|\?|$)/)[0].replace('embed/', '')
         if (!ds)
         {
             alert("data-src missing for video");
@@ -180,6 +181,7 @@ function gen_ytdefer_clk(i)
         var d = document;
         var el = d.getElementById('ytdefer_vid'+i);
         var vid_id = el.parentNode.getAttribute('data-src');
+        if(/embed/.test(vid_id)) vid_id = vid_id.match(/embed\/.*?(?=\/|\?|$)/)[0].replace('embed/', '')
         var player = new YT.Player(el.id, 
         {
             height: el.style.height,
